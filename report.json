@@ -1,0 +1,46 @@
+{
+  "target": "http://127.0.0.1:8081/vulnerabilities/sqli/",
+  "scan_date": "2026-10-22 08:39:33",
+  "hidden_paths_found": [
+    "http://127.0.0.1:8081/robots.txt",
+    "http://127.0.0.1:8081/phpinfo.php"
+  ],
+  "findings": [
+    {
+      "param": "id",
+      "technique": "error-based",
+      "confidence": "high",
+      "evidence": "Response length changed from error-breaking quote; SQL error text present"
+    },
+    {
+      "param": "id",
+      "technique": "boolean-based",
+      "confidence": "high",
+      "evidence": "TRUE length 4550 vs FALSE length 4479"
+    },
+    {
+      "param": "id",
+      "technique": "time-based",
+      "confidence": "high",
+      "evidence": "Response delayed 3.01s on SLEEP(3) payload"
+    }
+  ],
+  "overall_assessment": "CONFIRMED",
+  "manual_verification_checklist": [
+    {
+      "technique": "error-based",
+      "param": "id",
+      "step": "Manually browse to the page with a single quote in the parameter and confirm a real DB error renders (not just a generic error page)."
+    },
+    {
+      "technique": "boolean-based",
+      "param": "id",
+      "step": "Manually test TRUE vs FALSE payloads in the browser/Burp and visually confirm different content is returned (not just length)."
+    },
+    {
+      "technique": "time-based",
+      "param": "id",
+      "step": "Manually resend the SLEEP payload via Burp Repeater and confirm the delay is consistent across 2-3 attempts (rules out network jitter)."
+    }
+  ]
+}
